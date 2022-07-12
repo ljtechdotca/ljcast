@@ -8,10 +8,10 @@ Here is a list of features:
 
 - Auto refreshing access tokens.
 - Colorful console logs.
+- Fetch currently playing tracks from Spotify.
 - Followers, redemptions, and bits listeners through Twitch PubSub.
 - Fully customizable Twitch chat commands.
 - Going LIVE Discord notifications.
-- Send and receive Discord embeds and messages.
 - Subs, resubs, and sub gifts listeners through Twitch IRC.
 
 ## Basic Setup
