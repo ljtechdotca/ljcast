@@ -28,18 +28,32 @@ async function setupTwitchBot(
     {
       clientId: process.env.TWITCH_BOT_CLIENT_ID as string,
       clientSecret: process.env.TWITCH_BOT_CLIENT_SECRET as string,
-      onRefresh: async (newTokenData) =>
+      onRefresh: async ({
+        accessToken,
+        refreshToken,
+        expiresIn,
+        obtainmentTimestamp,
+      }) =>
         fs.writeFileSync(
           path.resolve(".", "data", "tokens", "twitch-bot.json"),
-          JSON.stringify(newTokenData, null, 4),
+          JSON.stringify(
+            {
+              access_token: accessToken,
+              refresh_token: refreshToken,
+              expires_in: expiresIn,
+              obtainment_timestamp: obtainmentTimestamp,
+            },
+            null,
+            4
+          ),
           "utf-8"
         ),
     },
     {
-      accessToken: initialToken.accessToken,
+      accessToken: initialToken.access_token,
       refreshToken: initialToken.refresh_token,
       expiresIn: initialToken.expires_in,
-      obtainmentTimestamp: Math.floor(new Date().getTime() / 1000),
+      obtainmentTimestamp: initialToken.obtainment_timestamp,
     }
   );
 

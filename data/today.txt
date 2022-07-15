@@ -1,1 +1,1 @@
-Doing some LeetCode questions and working on ljcast!
+Making documentation for a project.

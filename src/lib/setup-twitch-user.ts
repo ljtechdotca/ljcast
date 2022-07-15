@@ -2,7 +2,7 @@ import { RefreshingAuthProvider } from "@twurple/auth";
 import { ChatClient } from "@twurple/chat";
 import { BasicPubSubClient, PubSubClient } from "@twurple/pubsub";
 import chalk from "chalk";
-import { TextChannel } from "discord.js";
+import { MessageEmbed, TextChannel } from "discord.js";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
@@ -27,18 +27,32 @@ async function deployTwitchUser(
     {
       clientId: process.env.TWITCH_USER_CLIENT_ID as string,
       clientSecret: process.env.TWITCH_USER_CLIENT_SECRET as string,
-      onRefresh: async (newTokenData) =>
+      onRefresh: async ({
+        accessToken,
+        refreshToken,
+        expiresIn,
+        obtainmentTimestamp,
+      }) =>
         fs.writeFileSync(
           path.resolve(".", "data", "tokens", "twitch-user.json"),
-          JSON.stringify(newTokenData, null, 4),
+          JSON.stringify(
+            {
+              access_token: accessToken,
+              refresh_token: refreshToken,
+              expires_in: expiresIn,
+              obtainment_timestamp: obtainmentTimestamp,
+            },
+            null,
+            4
+          ),
           "utf-8"
         ),
     },
     {
-      accessToken: initialToken.accessToken,
+      accessToken: initialToken.access_token,
       refreshToken: initialToken.refresh_token,
       expiresIn: initialToken.expires_in,
-      obtainmentTimestamp: Math.floor(new Date().getTime() / 1000),
+      obtainmentTimestamp: initialToken.obtainment_timestamp,
     }
   );
 
@@ -60,8 +74,16 @@ async function deployTwitchUser(
 
       if (type == "stream-up") {
         textChannel.send({
-          content: "",
-          embeds: [config.embed],
+          content: `Hey @here, ${config.channel} just went live on Twitch.tv!`,
+          embeds: [
+            new MessageEmbed()
+              .setColor("DEFAULT")
+              .setTitle(`${config.channel} is LIVE`)
+              .setDescription("Come hang out and vibe.")
+              .setTimestamp()
+              .setImage(config.card)
+              .setURL(config.twitch),
+          ],
         });
       }
     },

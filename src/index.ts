@@ -1,6 +1,5 @@
 import { ChatClient } from "@twurple/chat";
 import chalk from "chalk";
-import { MessageEmbed } from "discord.js";
 import dotenv from "dotenv";
 import getTwitchCommands from "./lib/get-twitch-commands";
 import setupDiscordBot from "./lib/setup-discord-bot";
@@ -21,28 +20,21 @@ export interface CommandArgs {
   user: string;
 }
 
-export interface Config extends Record<string, any> {
-  embed: MessageEmbed;
-}
+export interface Config extends Record<string, any> {}
 
 // Manual config
 const config: Config = {
   bot: chalk.hex("#7b61ff")("🤖 ljtechbotca"),
+  card: "https://i.imgur.com/TN5fDNl.png",
   channel: "ljtechdotca",
   discordInvite: "https://discord.com/invite/F6nDGk5HKU",
   vscodeSettings:
     "https://gist.github.com/ljtechdotca/b2c38e16dbef82f51c7282eef18d0b91",
   discordChannelId: "815879442337366036",
-  embed: new MessageEmbed()
-    .setColor("DEFAULT")
-    .setTitle(`ljtechdotca is LIVE`)
-    .setDescription("Come hang out and vibe.")
-    .setTimestamp()
-    .setImage("https://i.imgur.com/TN5fDNl.png")
-    .setURL(`https://www.twitch.tv/ljtechdotca`),
   figma: "https://www.figma.com/@ljtech",
   github: "https://github.com/ljtechdotca",
   linkedin: "https://www.linkedin.com/in/ljtechdotca",
+  twitch: "https://www.twitch.tv/ljtechdotca",
   twitter: "https://twitter.com/ljtechdotca",
   website: "https://ljtech.ca",
 };
